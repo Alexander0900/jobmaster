@@ -1,0 +1,13 @@
+.AdsTitle {
+    color: brown;
+    margin: 30px;
+    text-align: center;
+}
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+
+}
