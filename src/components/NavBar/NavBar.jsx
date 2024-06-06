@@ -22,7 +22,7 @@ export const CustomNavBar = () => {
   };
 
   return (
-    <Navbar bg="primary" variant="dark">
+    <Navbar bg="primary" variant="dark" style={{ padding: 16 }}>
       <Container>
         <div>
           {isUserAuth && (
@@ -37,30 +37,29 @@ export const CustomNavBar = () => {
           </LinkContainer>
         </div>
 
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {!isUserAuth && (
-              <LinkContainer to="/signin">
-                <Nav.Link>Войти</Nav.Link>
-              </LinkContainer>
-            )}
+        <div>
+          {!isUserAuth && (
+            <LinkContainer style={{ color: "#FFFFFF" }} to="/signin">
+              <Nav.Link>Войти</Nav.Link>
+            </LinkContainer>
+          )}
 
-            {isUserAuth && (
-              <NavDropdown
-                id="nav-dropdown-dark-example"
-                title={userData.email}
-                menuVariant="dark"
+          {isUserAuth && (
+            <NavDropdown
+              style={{ color: "#FFFFFF" }}
+              id="nav-dropdown-white-example"
+              title={userData.email}
+              menuVariant="white"
+            >
+              <NavDropdown.Item
+                style={{ textAlign: "center" }}
+                onClick={handleLogout}
               >
-                <NavDropdown.Item
-                  style={{ textAlign: "center" }}
-                  onClick={handleLogout}
-                >
-                  Выйти
-                </NavDropdown.Item>
-              </NavDropdown>
-            )}
-          </Nav>
-        </Navbar.Collapse>
+                Выйти
+              </NavDropdown.Item>
+            </NavDropdown>
+          )}
+        </div>
       </Container>
     </Navbar>
   );
