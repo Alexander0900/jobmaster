@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -8,6 +8,7 @@ import { AUTHENTICATION } from '../config';
 import { Title } from '../components/Title';
 import { SubmitButton } from '../components/SubmitButton';
 import { HelperContainer } from '../components/HelperContainer';
+import { setUserData } from '../utils/setUserData';
 
 export const SignIn = () => {
     let navigate = useNavigate();
@@ -28,13 +29,9 @@ export const SignIn = () => {
         axios
             .post(AUTHENTICATION, data)
             .then((response) => {
-                sessionStorage.removeItem('userData');
-                sessionStorage.setItem(
-                    'userData',
-                    JSON.stringify(response.data)
-                );
+                setUserData(response.data)
                 setErr(null);
-                navigate('/dashboard');
+                navigate('/ads');
             })
             .catch((err) => {
                 setErr(err.response.data.message);
@@ -94,7 +91,9 @@ export const SignIn = () => {
                         <p className='text-danger'>{err}</p>
                     </div>
                 </Form.Group>
+
                 <SubmitButton loading={loading}>Войти</SubmitButton>
+                <Button variant="link" onClick={() => navigate('/signup')}>Зарегестрироваться</Button>
             </Form>
         </>
     );

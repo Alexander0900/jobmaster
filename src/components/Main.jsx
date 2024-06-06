@@ -6,24 +6,31 @@ import { SignUp } from "../pages/SignUp";
 import { Container } from "react-bootstrap";
 import { Ads } from "../pages/Ads/Ads";
 import { Ad } from "../pages/Ad/Ad";
+import { useAuth } from "../hooks/useAuth";
+
 export const Main = () => {
-  const parsedAuthData = JSON.parse(sessionStorage.getItem("userData"));
+  const { isAuth } = useAuth();
 
   return (
     <main>
       <Container>
         <Routes>
           <Route path="/" element={<Navigate to={"/signup"} />} />
-          {!parsedAuthData?.token && (
+          {!isAuth && (
             <>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
             </>
           )}
 
-          <Route path="/dashboard" element={<Dashboard />} />
+          {isAuth && (
+            <>
+              <Route path="/users" element={<Dashboard />} />
+              <Route path="/ad" element={<Ad />} />
+            </>
+          )}
+
           <Route path="/ads" element={<Ads />} />
-          <Route path="/ad" element={<Ad />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { REGISTRATION } from '../config';
@@ -109,7 +109,9 @@ export const SignUp = () => {
                         <p className='text-danger'>{err}</p>
                     </div>
                 </Form.Group>
+
                 <SubmitButton loading={loading}>Зарегистрироваться</SubmitButton>
+                <Button variant="link" onClick={() => navigate('/signin')}>Уже есть аккаунт?</Button>
             </Form>
         </>
     );
