@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useIsUserAuth } from "../hooks/useIsUserAuth";
+import { UseIsUserAuth } from "../hooks/UseIsUserAuth";
 
 export const AuthRequired = () => {
-  const isUserAuth = useIsUserAuth();
+  const isUserAuth = UseIsUserAuth();
   const location = useLocation();
 
   return isUserAuth ? (

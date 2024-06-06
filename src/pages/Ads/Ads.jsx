@@ -1,21 +1,20 @@
-import { useContext } from "react";
 import { AdsListing } from "../../components/AdsListing";
 import "./Ads.css";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../contexts/UserContext";
+import { UseIsUserAuth } from "../../hooks/UseIsUserAuth";
 
 export const Ads = () => {
-  const { userData } = useContext(UserContext);
+  const isUserAuth = UseIsUserAuth();
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    if (!userData.token) {
-      navigate("/ad");
+    if (!isUserAuth) {
+      navigate("/signin");
       return;
     }
 
-    navigate("/signin");
+    navigate("/add-ad");
   };
 
   return (

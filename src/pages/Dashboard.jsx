@@ -1,10 +1,12 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ALL_USERS, DELETE_USERS, UPDATE_USER } from "../config";
 import { TableUsers } from "../components/TableUsers";
 import { Toolbar } from "../components/Toolbar";
 import { Loader } from "../components/Loader";
+import { UserContext } from "../contexts/UserContext";
+import { UseIsUserAuth } from "../hooks/UseIsUserAuth";
 
 export const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -13,6 +15,8 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const selectAll = (state) => setAll(state);
+  const isUserAuth = UseIsUserAuth();
+  const { userData } = useContext(UserContext);
 
   const handleTable = ({ _id, email }) => {
     !selectedUsers.some((el) => el._id === _id)
@@ -20,11 +24,8 @@ export const Dashboard = () => {
       : setSelectedUsers(selectedUsers.filter((el) => el._id !== _id));
   };
 
-  const hasToken = (data) => data.hasOwnProperty("token");
-
   const getUsers = () => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (!userData || !hasToken(userData)) navigate("/signin");
+    if (!isUserAuth) navigate("/signin");
 
     const config = {
       headers: {
@@ -42,78 +43,70 @@ export const Dashboard = () => {
   };
 
   const handleDelete = () => {
-    if (selectedUsers.length) {
-      const userData = JSON.parse(sessionStorage.getItem("userData"));
-
-      if (userData && hasToken(userData)) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${userData.token}`,
-          },
-          data: {
-            emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
-          },
-        };
-
-        setLoading(true);
-
-        axios
-          .delete(DELETE_USERS, config)
-          .then((response) => getUsers())
-          .catch((err) => navigate("/signin"))
-          .finally(() => setLoading(false));
-
-        const isAuthorizedUser = selectedUsers.find(
-          (selectedUser) => selectedUser.email === userData.email
-        );
-
-        if (isAuthorizedUser) {
-          sessionStorage.removeItem("userData");
-          navigate("/signin");
-        }
-      } else {
-        navigate("/signin");
-      }
-
-      setSelectedUsers([]);
-      setAll(false);
+    if (selectedUsers.length === 0) return;
+    if (!isUserAuth) {
+      navigate("/signin");
+      return;
     }
+
+    setLoading(true);
+
+    axios
+      .delete(DELETE_USERS, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+        data: {
+          emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
+        },
+      })
+      .then((response) => getUsers())
+      .catch((err) => navigate("/signin"))
+      .finally(() => setLoading(false));
+
+    const isAuthorizedUser = selectedUsers.find(
+      (selectedUser) => selectedUser.email === userData.email
+    );
+
+    if (isAuthorizedUser) {
+      sessionStorage.removeItem("userData");
+      navigate("/signin");
+    }
+
+    setSelectedUsers([]);
+    setAll(false);
   };
 
   const handleStatus = (status) => {
-    if (selectedUsers.length) {
-      const userData = JSON.parse(sessionStorage.getItem("userData"));
-
-      if (userData && hasToken(userData)) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${userData.token}`,
-          },
-        };
-
-        const body = {
-          emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
-          status: status,
-        };
-
-        setLoading(true);
-
-        axios
-          .put(UPDATE_USER, body, config)
-          .then((response) => {
-            getUsers();
-          })
-          .catch((err) => {
-            navigate("/signin");
-          })
-          .finally(() => setLoading(false));
-      } else {
-        navigate("/signin");
-      }
-
-      setSelectedUsers([]);
-      setAll(false);
+    if (selectedUsers.length === 0) return;
+    if (!isUserAuth) {
+      navigate("/signin");
+      return;
     }
+
+    const body = {
+      emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
+      status: status,
+    };
+
+    setLoading(true);
+
+    axios
+      .put(UPDATE_USER, body, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+      })
+      .then((response) => {
+        getUsers();
+      })
+      .catch((err) => {
+        navigate("/signin");
+      })
+      .finally(() => setLoading(false));
+
+    setSelectedUsers([]);
+    setAll(false);
   };
 
   useEffect(() => {

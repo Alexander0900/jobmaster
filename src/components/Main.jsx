@@ -7,10 +7,10 @@ import { Container } from "react-bootstrap";
 import { Ads } from "../pages/Ads/Ads";
 import { Ad } from "../pages/Ad/Ad";
 import { AuthRequired } from "./AuthRequired";
-import { useIsUserAuth } from "../hooks/useIsUserAuth";
+import { UseIsUserAuth } from "../hooks/UseIsUserAuth";
 
 export const Main = () => {
-  const isUserAuth = useIsUserAuth();
+  const isUserAuth = UseIsUserAuth();
 
   return (
     <main>
@@ -29,7 +29,7 @@ export const Main = () => {
 
           <Route element={<AuthRequired />}>
             <Route path="/users" element={<Dashboard />} />
-            <Route path="/ad" element={<Ad />} />
+            <Route path="/add-ad" element={<Ad />} />
           </Route>
 
           <Route path="/ads" element={<Ads />} />

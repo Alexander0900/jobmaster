@@ -5,12 +5,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
-import { useIsUserAuth } from "../../hooks/useIsUserAuth";
+import { UseIsUserAuth } from "../../hooks/UseIsUserAuth";
 
 export const CustomNavBar = () => {
   const navigate = useNavigate();
   const { userData, updateUserData } = useContext(UserContext);
-  const isUserAuth = useIsUserAuth();
+  const isUserAuth = UseIsUserAuth();
 
   const handleLogout = () => {
     updateUserData({
