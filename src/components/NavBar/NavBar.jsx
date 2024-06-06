@@ -1,23 +1,36 @@
-import { Container, Nav, Navbar, Button } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import './NavBar.css'
-import { useAuth } from '../../hooks/useAuth';
-import { useLogout } from '../../hooks/useLogout';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import "./NavBar.css";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useIsUserAuth } from "../../hooks/useIsUserAuth";
 
 export const CustomNavBar = () => {
-  const { isAuth, userData } = useAuth();
-  const logout = useLogout();
+  const navigate = useNavigate();
+  const { userData, updateUserData } = useContext(UserContext);
+  const isUserAuth = useIsUserAuth();
 
-  console.log(isAuth)
+  const handleLogout = () => {
+    updateUserData({
+      token: null,
+      email: null,
+    });
+
+    navigate("/ads");
+  };
 
   return (
     <Navbar bg="primary" variant="dark">
       <Container>
         <div>
-          {/* <LinkContainer to="/users">
-            <Navbar.Brand>Admin panel</Navbar.Brand>
-          </LinkContainer> */}
+          {isUserAuth && (
+            // TODO: add role admin
+            <LinkContainer to="/users">
+              <Navbar.Brand>Админ панель</Navbar.Brand>
+            </LinkContainer>
+          )}
 
           <LinkContainer to="/ads">
             <Navbar.Brand>Объявления</Navbar.Brand>
@@ -26,45 +39,28 @@ export const CustomNavBar = () => {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {!isAuth && (
-              <>
-                <LinkContainer to="/signin">
-                  <Nav.Link>Войти</Nav.Link>
-                </LinkContainer>
-              </>
+            {!isUserAuth && (
+              <LinkContainer to="/signin">
+                <Nav.Link>Войти</Nav.Link>
+              </LinkContainer>
             )}
 
-            {/* {isAuth && (
-            <>
-              <Navbar.Text className="me-3">{userData.email}</Navbar.Text>
-              <Button variant="outline-light" onClick={logout}>
-                Выйти
-              </Button>
-            </>
-          )} */}
-            {isAuth && <NavDropdown
-              id="nav-dropdown-dark-example"
-              title={userData.email}
-              menuVariant="dark"
-            >
-              <NavDropdown.Item href="#action/3.1">
-              <Button variant="outline-light" onClick={logout}>
-                Выйти
-                </Button>
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-            }
+            {isUserAuth && (
+              <NavDropdown
+                id="nav-dropdown-dark-example"
+                title={userData.email}
+                menuVariant="dark"
+              >
+                <NavDropdown.Item
+                  style={{ textAlign: "center" }}
+                  onClick={handleLogout}
+                >
+                  Выйти
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
-
       </Container>
     </Navbar>
   );

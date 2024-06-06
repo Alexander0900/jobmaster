@@ -6,29 +6,31 @@ import { SignUp } from "../pages/SignUp";
 import { Container } from "react-bootstrap";
 import { Ads } from "../pages/Ads/Ads";
 import { Ad } from "../pages/Ad/Ad";
-import { useAuth } from "../hooks/useAuth";
+import { AuthRequired } from "./AuthRequired";
+import { useIsUserAuth } from "../hooks/useIsUserAuth";
 
 export const Main = () => {
-  const { isAuth } = useAuth();
+  const isUserAuth = useIsUserAuth();
 
   return (
     <main>
       <Container>
         <Routes>
           <Route path="/" element={<Navigate to={"/signup"} />} />
-          {!isAuth && (
-            <>
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
-            </>
-          )}
 
-          {isAuth && (
-            <>
-              <Route path="/users" element={<Dashboard />} />
-              <Route path="/ad" element={<Ad />} />
-            </>
-          )}
+          <Route
+            path="/signin"
+            element={!isUserAuth ? <SignIn /> : <Navigate to="/users" />}
+          />
+          <Route
+            path="/signup"
+            element={!isUserAuth ? <SignUp /> : <Navigate to="/users" />}
+          />
+
+          <Route element={<AuthRequired />}>
+            <Route path="/users" element={<Dashboard />} />
+            <Route path="/ad" element={<Ad />} />
+          </Route>
 
           <Route path="/ads" element={<Ads />} />
           <Route path="*" element={<NotFound />} />

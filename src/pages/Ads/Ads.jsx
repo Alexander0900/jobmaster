@@ -1,21 +1,22 @@
+import { useContext } from "react";
 import { AdsListing } from "../../components/AdsListing";
-import { useAuth } from "../../hooks/useAuth";
 import "./Ads.css";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
 export const Ads = () => {
+  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
-  const isAuth = useAuth();
 
   const handleButtonClick = () => {
-    if (isAuth) {
+    if (!userData.token) {
       navigate("/ad");
       return;
-    };
+    }
 
     navigate("/signin");
-  }
+  };
 
   return (
     <div>
@@ -28,4 +29,4 @@ export const Ads = () => {
       <AdsListing />
     </div>
   );
-};  
+};
