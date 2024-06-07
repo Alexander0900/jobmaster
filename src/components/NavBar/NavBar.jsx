@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { UseIsUserAuth } from "../../hooks/UseIsUserAuth";
+import { isAdmin } from "../../utils/isAdmin";
 
 export const CustomNavBar = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ export const CustomNavBar = () => {
     updateUserData({
       token: null,
       email: null,
+      username: null,
+      roles: null,
     });
 
     navigate("/ads");
@@ -25,8 +28,7 @@ export const CustomNavBar = () => {
     <Navbar bg="primary" variant="dark" style={{ padding: 16 }}>
       <Container>
         <div>
-          {isUserAuth && (
-            // TODO: add role admin
+          {isUserAuth && isAdmin(userData.roles) && (
             <LinkContainer to="/users">
               <Navbar.Brand>Админ панель</Navbar.Brand>
             </LinkContainer>
@@ -47,8 +49,7 @@ export const CustomNavBar = () => {
           {isUserAuth && (
             <NavDropdown
               style={{ color: "#FFFFFF" }}
-              id="nav-dropdown-white-example"
-              title={userData.email}
+              title={userData.username}
               menuVariant="white"
             >
               <NavDropdown.Item

@@ -12,19 +12,25 @@ const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     token: paresedUserData?.token || null,
     email: paresedUserData?.email || null,
+    username: paresedUserData?.username || null,
+    roles: paresedUserData?.roles || null,
   });
 
-  const updateUserData = ({ token, email }) => {
+  const updateUserData = ({ token, email, username, roles }) => {
     localStorage.setItem(
       USER_DATA_KEY,
       JSON.stringify({
         token,
         email,
+        username,
+        roles,
       })
     );
     setUserData({
       token,
       email,
+      username,
+      roles,
     });
   };
 

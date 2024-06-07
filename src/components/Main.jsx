@@ -9,9 +9,13 @@ import { Ad } from "../pages/Ad/Ad";
 import { AuthRequired } from "./AuthRequired";
 import { UseIsUserAuth } from "../hooks/UseIsUserAuth";
 import { MyAds } from "../pages/MyAds";
+import { isAdmin } from "../utils/isAdmin";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export const Main = () => {
   const isUserAuth = UseIsUserAuth();
+  const { userData } = useContext(UserContext);
 
   return (
     <main>
@@ -21,15 +25,20 @@ export const Main = () => {
 
           <Route
             path="/signin"
-            element={!isUserAuth ? <SignIn /> : <Navigate to="/users" />}
+            element={!isUserAuth ? <SignIn /> : <Navigate to="/ads" />}
           />
           <Route
             path="/signup"
-            element={!isUserAuth ? <SignUp /> : <Navigate to="/users" />}
+            element={!isUserAuth ? <SignUp /> : <Navigate to="/ads" />}
           />
 
           <Route element={<AuthRequired />}>
-            <Route path="/users" element={<Dashboard />} />
+            <Route
+              path="/users"
+              element={
+                isAdmin(userData.roles) ? <Dashboard /> : <Navigate to="/ads" />
+              }
+            />
             <Route path="/add-ad" element={<Ad />} />
             <Route path="/my-ads" element={<MyAds />} />
           </Route>

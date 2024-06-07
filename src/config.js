@@ -10,3 +10,8 @@ export const GET_ADS = `${BASE_URL}/api/ads`;
 export const GET_MY_ADS = `${BASE_URL}/api/my-ads`;
 export const CREATE_ADS = `${BASE_URL}/api/ads/create`;
 export const DELETE_AD = `${BASE_URL}/api/ads/delete`;
+
+export const ROLES = {
+  ADMIN: "admin",
+  USER: "user",
+};
