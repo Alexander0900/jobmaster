@@ -38,7 +38,9 @@ export const AdItem = ({ ad, getAds }) => {
           <Card.Text>{ad.requirements}</Card.Text>
           <Card.Text>Имя работодателя: {ad.username}</Card.Text>
           <Card.Text>Зарплата: {ad.salary}</Card.Text>
-          <Card.Text>Моб: {ad.mobile}</Card.Text>
+          <Card.Text>
+            Тел: <a href={`tel:${ad.mobile}`}>{ad.mobile}</a>
+          </Card.Text>
           <Card.Text>{ad.city}</Card.Text>
           {userData.email === ad.email && (
             <SubmitButton

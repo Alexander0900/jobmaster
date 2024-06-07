@@ -93,22 +93,25 @@ export const AdForm = () => {
           <Form.Label>Номер телефона</Form.Label>
           <Form.Control
             {...register("mobile", {
-              required: "обязательно поле!",
+              required: "Обязательное поле!",
+              pattern: {
+                value: /^\d+$/,
+                message: "Номер телефона должен содержать только цифры",
+              },
               minLength: {
-                value: 1,
-                message: "минимально 1 сивол",
+                value: 7,
+                message: "Минимальная длина - 7 цифр",
               },
             })}
-            type="text"
-            placeholder="введите номер телефона..."
+            type="number"
+            placeholder="Введите номер телефона..."
+            isInvalid={errors?.mobile}
           />
-          <HelperContainer>
-            {errors?.mobile && (
-              <p className="text-danger">
-                {errors?.mobile?.message || "Error!"}
-              </p>
-            )}
-          </HelperContainer>
+          {errors?.mobile && (
+            <Form.Control.Feedback type="invalid">
+              {errors?.mobile?.message}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="adTitle">
