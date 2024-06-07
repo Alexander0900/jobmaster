@@ -8,6 +8,7 @@ import { Ads } from "../pages/Ads/Ads";
 import { Ad } from "../pages/Ad/Ad";
 import { AuthRequired } from "./AuthRequired";
 import { UseIsUserAuth } from "../hooks/UseIsUserAuth";
+import { MyAds } from "../pages/MyAds";
 
 export const Main = () => {
   const isUserAuth = UseIsUserAuth();
@@ -30,6 +31,7 @@ export const Main = () => {
           <Route element={<AuthRequired />}>
             <Route path="/users" element={<Dashboard />} />
             <Route path="/add-ad" element={<Ad />} />
+            <Route path="/my-ads" element={<MyAds />} />
           </Route>
 
           <Route path="/ads" element={<Ads />} />

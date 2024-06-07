@@ -53,6 +53,12 @@ export const CustomNavBar = () => {
             >
               <NavDropdown.Item
                 style={{ textAlign: "center" }}
+                onClick={() => navigate("/my-ads")}
+              >
+                Мои объвления
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                style={{ textAlign: "center" }}
                 onClick={handleLogout}
               >
                 Выйти

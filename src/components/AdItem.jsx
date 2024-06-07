@@ -40,14 +40,16 @@ export const AdItem = ({ ad, getAds }) => {
           <Card.Text>Зарплата: {ad.salary}</Card.Text>
           <Card.Text>Моб: {ad.mobile}</Card.Text>
           <Card.Text>{ad.city}</Card.Text>
-          <SubmitButton
-            type="button"
-            loading={loading}
-            onClick={() => handleDelete(ad._id)}
-            variant="danger"
-          >
-            Удалить объявление
-          </SubmitButton>
+          {userData.email === ad.email && (
+            <SubmitButton
+              type="button"
+              loading={loading}
+              onClick={() => handleDelete(ad._id)}
+              variant="danger"
+            >
+              Удалить объявление
+            </SubmitButton>
+          )}
         </Card.Body>
       </Card>
     </div>

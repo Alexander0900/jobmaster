@@ -25,11 +25,15 @@ export const AdForm = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      await axios.post(CREATE_ADS, data, {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-        },
-      });
+      await axios.post(
+        CREATE_ADS,
+        { ...data, email: userData.email },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
       setIsOpenNotification(true);
       setErr(null);
     } catch (err) {
