@@ -4,6 +4,7 @@ import { DELETE_AD } from "../config";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { SubmitButton } from "./SubmitButton";
+import { formatDate } from "../utils/formatDate";
 
 export const AdItem = ({ ad, getAds }) => {
   const [loading, setLoading] = useState(false);
@@ -35,13 +36,16 @@ export const AdItem = ({ ad, getAds }) => {
       <Card style={{ marginBottom: "20px" }}>
         <Card.Body>
           <Card.Title>{ad.adTitle}</Card.Title>
-          <Card.Text>{ad.requirements}</Card.Text>
+          <Card.Text>Требования: {ad.requirements}</Card.Text>
           <Card.Text>Имя работодателя: {ad.username}</Card.Text>
           <Card.Text>Зарплата: {ad.salary}</Card.Text>
           <Card.Text>
             Тел: <a href={`tel:${ad.mobile}`}>{ad.mobile}</a>
           </Card.Text>
-          <Card.Text>{ad.city}</Card.Text>
+          <Card.Text>Локация: {ad.city}</Card.Text>
+          <Card.Text>
+            Дата публикации: <br /> {formatDate(new Date(ad.created))}
+          </Card.Text>
           {userData.email === ad.email && (
             <SubmitButton
               type="button"
