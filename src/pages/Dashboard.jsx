@@ -35,6 +35,7 @@ export const Dashboard = () => {
 
     setLoading(true);
 
+    //use async await
     axios
       .post(ALL_USERS, { email: userData.email }, config)
       .then((response) => setUsers(response.data))
