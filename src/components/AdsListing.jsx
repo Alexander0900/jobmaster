@@ -3,6 +3,7 @@ import { GET_ADS } from "../config";
 import { useEffect, useState } from "react";
 import { Loader } from "./Loader";
 import { AdItem } from "./AdItem";
+import { CenteredContainer } from "./CenteredContainer";
 
 export const AdsListing = () => {
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,6 @@ export const AdsListing = () => {
     } catch (err) {
       console.error(err);
       setErr(err);
-      // show notif
     } finally {
       setLoading(false);
     }
@@ -29,9 +29,11 @@ export const AdsListing = () => {
   }, []);
 
   return (
-    <div className="row" style={{ display: "flex", justifyContent: "center" }}>
+    <div className="row">
       {loading ? (
-        <Loader animation="border" size="lg" />
+        <CenteredContainer>
+          <Loader animation="border" size="lg" />
+        </CenteredContainer>
       ) : (
         <>
           {ads.map((ad) => (
