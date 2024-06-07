@@ -8,4 +8,4 @@ export const REGISTRATION = `${BASE_URL}/api/auth/signup`;
 export const AUTHENTICATION = `${BASE_URL}/api/auth/signin`;
 export const GET_ADS = `${BASE_URL}/api/ads`;
 export const CREATE_ADS = `${BASE_URL}/api/ads/create`;
-export const DELETE_ADS = `${BASE_URL}/api/ads/delete`;
+export const DELETE_AD = `${BASE_URL}/api/ads/delete`;

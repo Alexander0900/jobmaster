@@ -1,9 +1,15 @@
 import { Button } from "react-bootstrap";
 import { Loader } from "./Loader";
 
-export const SubmitButton = ({ children, loading }) => {
+export const SubmitButton = ({
+  children,
+  loading,
+  variant = "primary",
+  type = "submit",
+  onClick = undefined,
+}) => {
   return (
-    <Button variant="primary" type="submit">
+    <Button onClick={onClick} variant={variant} type={type}>
       {!loading ? (
         children
       ) : (

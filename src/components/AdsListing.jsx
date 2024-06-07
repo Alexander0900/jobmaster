@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Card } from "react-bootstrap";
 import { GET_ADS } from "../config";
 import { useEffect, useState } from "react";
 import { Loader } from "./Loader";
+import { AdItem } from "./AdItem";
 
 export const AdsListing = () => {
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,6 @@ export const AdsListing = () => {
     setLoading(true);
 
     try {
-      //use async await
       const response = await axios.get(GET_ADS);
       setAds(response.data);
     } catch (err) {
@@ -30,27 +29,19 @@ export const AdsListing = () => {
   }, []);
 
   return (
-    <div className="row">
+    <div className="row" style={{ display: "flex", justifyContent: "center" }}>
       {loading ? (
         <Loader animation="border" size="lg" />
       ) : (
         <>
           {ads.map((ad) => (
-            <div className="col-md-4" key={ad._id}>
-            <Card style={{ marginBottom: "20px" }}>
-              <Card.Body>
-                <Card.Title>{ad?.adTitle}</Card.Title>
-                <Card.Text>{ad.requirements}</Card.Text>
-                <Card.Text>Имя работодателя: {ad.username}</Card.Text>
-                <Card.Text>Зарплата: {ad.salary}</Card.Text>
-                <Card.Text>Моб: {ad.mobile}</Card.Text>
-                <Card.Text>{ad.city}</Card.Text>
-                {/* <Button variant="primary">Перейти</Button> */}
-              </Card.Body>
-            </Card>
-          </div>
+            <AdItem key={ad._id} ad={ad} getAds={getAds} />
           ))}
         </>
+      )}
+
+      {!loading && ads.length === 0 && (
+        <p style={{ textAlign: "center" }}>Объявлений не найдено</p>
       )}
     </div>
   );

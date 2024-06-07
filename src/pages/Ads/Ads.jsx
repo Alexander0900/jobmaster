@@ -3,6 +3,7 @@ import "./Ads.css";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { UseIsUserAuth } from "../../hooks/UseIsUserAuth";
+import { Title } from "../../components/Title";
 
 export const Ads = () => {
   const isUserAuth = UseIsUserAuth();
@@ -19,7 +20,7 @@ export const Ads = () => {
 
   return (
     <div>
-      <h1 className="AdsTitle">Просмотр объявлений</h1>
+      <Title>Просмотр объявлений</Title>
       <div className="buttonContainer">
         <Button variant="primary" onClick={handleButtonClick}>
           Разместить объявление
