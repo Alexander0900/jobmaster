@@ -6,7 +6,6 @@ export const Row = ({
   username,
   email,
   registrationDate,
-  lastLogin,
   isBlock,
   handleTable,
   checked,
@@ -25,9 +24,6 @@ export const Row = ({
       <td>{username}</td>
       <td>{email}</td>
       <td>{formatDate(new Date(registrationDate))}</td>
-      <td>
-        {lastLogin ? formatDate(new Date(lastLogin)) : "no login attempts"}
-      </td>
       <td>{isBlock ? "blocked" : "active"}</td>
     </tr>
   );

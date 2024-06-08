@@ -16,7 +16,18 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const selectAll = (state) => setAll(state);
   const isUserAuth = UseIsUserAuth();
-  const { userData } = useContext(UserContext);
+  const { userData, updateUserData } = useContext(UserContext);
+
+  const handleLogout = () => {
+    updateUserData({
+      token: null,
+      email: null,
+      username: null,
+      roles: null,
+    });
+
+    navigate("/ads");
+  };
 
   const handleTable = ({ _id, email }) => {
     !selectedUsers.some((el) => el._id === _id)
@@ -24,26 +35,30 @@ export const Dashboard = () => {
       : setSelectedUsers(selectedUsers.filter((el) => el._id !== _id));
   };
 
-  const getUsers = () => {
+  const getUsers = async () => {
     if (!isUserAuth) navigate("/signin");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`,
-      },
-    };
 
     setLoading(true);
 
-    //use async await
-    axios
-      .post(ALL_USERS, { email: userData.email }, config)
-      .then((response) => setUsers(response.data))
-      .catch((err) => navigate("/signin"))
-      .finally(() => setLoading(false));
+    try {
+      const response = await axios.post(
+        ALL_USERS,
+        { email: userData.email },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
+      setUsers(response.data);
+    } catch (err) {
+      navigate("/signin");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedUsers.length === 0) return;
     if (!isUserAuth) {
       navigate("/signin");
@@ -52,59 +67,62 @@ export const Dashboard = () => {
 
     setLoading(true);
 
-    axios
-      .delete(DELETE_USERS, {
+    try {
+      await axios.delete(DELETE_USERS, {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },
         data: {
           emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
         },
-      })
-      .then((response) => getUsers())
-      .catch((err) => navigate("/signin"))
-      .finally(() => setLoading(false));
+      });
+      await getUsers();
+    } catch (err) {
+      navigate("/signin");
+    } finally {
+      setLoading(false);
+    }
 
-    const isAuthorizedUser = selectedUsers.find(
-      (selectedUser) => selectedUser.email === userData.email
+    const isSelectedUserAuth = selectedUsers.find(
+      (user) => user.email === userData.email
     );
 
-    if (isAuthorizedUser) {
-      sessionStorage.removeItem("userData");
-      navigate("/signin");
+    if (isSelectedUserAuth) {
+      handleLogout();
     }
 
     setSelectedUsers([]);
     setAll(false);
   };
 
-  const handleStatus = (status) => {
+  const handleStatus = async (status) => {
     if (selectedUsers.length === 0) return;
     if (!isUserAuth) {
       navigate("/signin");
       return;
     }
 
-    const body = {
-      emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
-      status: status,
-    };
-
     setLoading(true);
 
-    axios
-      .put(UPDATE_USER, body, {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
+    try {
+      await axios.put(
+        UPDATE_USER,
+        {
+          emails: selectedUsers.reduce((acc, el) => [...acc, el.email], []),
+          status: status,
         },
-      })
-      .then((response) => {
-        getUsers();
-      })
-      .catch((err) => {
-        navigate("/signin");
-      })
-      .finally(() => setLoading(false));
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
+      await getUsers();
+    } catch (err) {
+      navigate("/signin");
+    } finally {
+      setLoading(false);
+    }
 
     setSelectedUsers([]);
     setAll(false);
@@ -121,7 +139,9 @@ export const Dashboard = () => {
       : setSelectedUsers([]);
   }, [isAll, users]);
 
-  useEffect(() => getUsers(), []);
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <div

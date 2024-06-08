@@ -24,10 +24,9 @@ export const TableUsers = ({
               />
             </th>
             <th>ID</th>
-            <th>Имя</th>
+            <th>Имя пользователя</th>
             <th>Email</th>
             <th>Дата регистрации</th>
-            <th>Последний вход</th>
             <th>Статус</th>
           </tr>
         </thead>

@@ -1,4 +1,4 @@
-import { Form } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { Title } from "../components/Title";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { CREATE_ADS } from "../config";
 import { UserContext } from "../contexts/UserContext";
 import { MyToast } from "./MyToast";
+import { belarusCities } from "../data/belarusCities";
 
 export const AdForm = () => {
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -78,7 +79,7 @@ export const AdForm = () => {
               },
             })}
             type="text"
-            placeholder="введите ваше имя..."
+            placeholder="Введите ваше имя..."
           />
           <HelperContainer>
             {errors?.username && (
@@ -121,11 +122,12 @@ export const AdForm = () => {
               required: "обязательно поле!",
               minLength: {
                 value: 5,
-                message: "минимально 5 сиволов",
+                message:
+                  "заголовок объявления должен содержать не менее 5 сиволов",
               },
             })}
             type="text"
-            placeholder="введите свой город..."
+            placeholder="Введите заголовок объявления..."
           />
           <HelperContainer>
             {errors?.adTitle && (
@@ -143,12 +145,12 @@ export const AdForm = () => {
             {...register("requirements", {
               required: "обязательное поле!",
               minLength: {
-                value: 1,
-                message: "Минимально 1 символ",
+                value: 10,
+                message: "Требования должны содержать не менее 10 символов",
               },
             })}
             type="text"
-            placeholder="введите необходимые требования.."
+            placeholder="Введите необходимые требования.."
           />
           <HelperContainer>
             {errors?.requirements && (
@@ -160,7 +162,7 @@ export const AdForm = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="salary">
-          <Form.Label>Оплата, BYN</Form.Label>
+          <Form.Label>Оплата</Form.Label>
           <Form.Control
             {...register("salary", {
               required: "обязательно поле!",
@@ -169,8 +171,8 @@ export const AdForm = () => {
                 message: "минимально 1 сивол",
               },
             })}
-            type="number"
-            placeholder="введите оплату..."
+            type="text"
+            placeholder="Введите оплату..."
           />
           <HelperContainer>
             {errors?.salary && (
@@ -183,22 +185,22 @@ export const AdForm = () => {
 
         <Form.Group className="mb-3" controlId="city">
           <Form.Label>Город</Form.Label>
-          <Form.Control
-            {...register("city", {
-              required: "обязательно поле!",
-              minLength: {
-                value: 1,
-                message: "минимально 1 сивол",
-              },
-            })}
-            type="text"
-            placeholder="введите свой город..."
-          />
-          <HelperContainer>
-            {errors?.city && (
-              <p className="text-danger">{errors?.city?.message || "Error!"}</p>
-            )}
-          </HelperContainer>
+          <Form.Select
+            defaultValue="Минск"
+            {...register("city", { required: "Выберите город!" })}
+            isInvalid={errors?.city}
+          >
+            {belarusCities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </Form.Select>
+          {errors?.city && (
+            <Form.Control.Feedback type="invalid">
+              {errors?.city?.message}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
         <SubmitButton loading={loading}>Отправить</SubmitButton>
       </Form>

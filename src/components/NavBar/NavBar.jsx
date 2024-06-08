@@ -29,7 +29,7 @@ export const CustomNavBar = () => {
       <Container>
         <div>
           {isUserAuth && isAdmin(userData.roles) && (
-            <LinkContainer to="/users">
+            <LinkContainer to="/admin">
               <Navbar.Brand>Админ панель</Navbar.Brand>
             </LinkContainer>
           )}

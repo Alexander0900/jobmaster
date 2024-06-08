@@ -34,7 +34,7 @@ export const Main = () => {
 
           <Route element={<AuthRequired />}>
             <Route
-              path="/users"
+              path="/admin"
               element={
                 isAdmin(userData.roles) ? <Dashboard /> : <Navigate to="/ads" />
               }
