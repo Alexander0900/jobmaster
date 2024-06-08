@@ -1,11 +1,12 @@
 import axios from "axios";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { DELETE_AD } from "../config";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { SubmitButton } from "./SubmitButton";
 import { isAdmin } from "../utils/isAdmin";
 import dayjs from "dayjs";
+import { Trash3 } from "react-bootstrap-icons";
 
 export const AdItem = ({ ad, getAds }) => {
   const [loading, setLoading] = useState(false);
@@ -48,14 +49,13 @@ export const AdItem = ({ ad, getAds }) => {
           </div>
           <div>
             {(isAdmin(userData.roles) || userData.email === ad.email) && (
-              <SubmitButton
-                type="button"
+              <Button
                 loading={loading}
                 onClick={() => handleDelete(ad._id)}
-                variant="danger"
+                variant="outline-danger"
               >
-                Удалить объявление
-              </SubmitButton>
+                <Trash3 size={25} />
+              </Button>
             )}
           </div>
         </div>
