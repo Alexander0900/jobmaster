@@ -1,15 +1,15 @@
 import axios from "axios";
 import { Card } from "react-bootstrap";
-import { DELETE_AD, ROLES } from "../config";
+import { DELETE_AD } from "../config";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { SubmitButton } from "./SubmitButton";
-import { formatDate } from "../utils/formatDate";
 import { isAdmin } from "../utils/isAdmin";
+import dayjs from "dayjs";
 
 export const AdItem = ({ ad, getAds }) => {
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(null);
+  const [, setErr] = useState(null);
   const { userData } = useContext(UserContext);
 
   const handleDelete = async (_id) => {
@@ -45,7 +45,7 @@ export const AdItem = ({ ad, getAds }) => {
           </Card.Text>
           <Card.Text>Локация: {ad.city}</Card.Text>
           <Card.Text>
-            Дата публикации: <br /> {formatDate(new Date(ad.created))}
+            Опубликовано: {dayjs(ad.created).fromNow()}
           </Card.Text>
           {(isAdmin(userData.roles) || userData.email === ad.email) && (
             <SubmitButton

@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { formatDate } from "../utils/formatDate";
+import dayjs from "dayjs";
 
 export const Row = ({
   _id,
@@ -23,7 +23,7 @@ export const Row = ({
       <td>{_id}</td>
       <td>{username}</td>
       <td>{email}</td>
-      <td>{formatDate(new Date(registrationDate))}</td>
+      <td>{dayjs(registrationDate).format("DD.MM.YYYY / HH:mm")}</td>
       <td>{isBlock ? "blocked" : "active"}</td>
     </tr>
   );
