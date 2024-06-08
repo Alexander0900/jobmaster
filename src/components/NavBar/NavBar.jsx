@@ -44,7 +44,7 @@ export const CustomNavBar = () => {
               title={userData.username}
               menuVariant="white"
             >
-              {isUserAuth && isAdmin(userData.roles) && (
+              {isAdmin(userData.roles) && (
                 <NavDropdown.Item
                   style={{ textAlign: "center" }}
                   onClick={() => navigate("/admin")}
