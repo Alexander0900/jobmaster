@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard } from "../pages/Dashboard";
+import { Admin } from "../pages/Admin";
 import { NotFound } from "../pages/NotFound";
 import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
@@ -36,7 +36,7 @@ export const Main = () => {
             <Route
               path="/admin"
               element={
-                isAdmin(userData.roles) ? <Dashboard /> : <Navigate to="/ads" />
+                isAdmin(userData.roles) ? <Admin /> : <Navigate to="/ads" />
               }
             />
             <Route path="/add-ad" element={<Ad />} />

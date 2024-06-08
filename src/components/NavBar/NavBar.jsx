@@ -27,17 +27,9 @@ export const CustomNavBar = () => {
   return (
     <Navbar bg="primary" variant="dark" style={{ padding: 16 }}>
       <Container>
-        <div>
-          {isUserAuth && isAdmin(userData.roles) && (
-            <LinkContainer to="/admin">
-              <Navbar.Brand>Админ панель</Navbar.Brand>
-            </LinkContainer>
-          )}
-
-          <LinkContainer to="/ads">
-            <Navbar.Brand>Объявления</Navbar.Brand>
-          </LinkContainer>
-        </div>
+        <LinkContainer to="/ads">
+          <Navbar.Brand>Job master</Navbar.Brand>
+        </LinkContainer>
 
         <div>
           {!isUserAuth && (
@@ -52,6 +44,21 @@ export const CustomNavBar = () => {
               title={userData.username}
               menuVariant="white"
             >
+              {isUserAuth && isAdmin(userData.roles) && (
+                <NavDropdown.Item
+                  style={{ textAlign: "center" }}
+                  onClick={() => navigate("/admin")}
+                >
+                  Admin
+                </NavDropdown.Item>
+              )}
+
+              <NavDropdown.Item
+                style={{ textAlign: "center" }}
+                onClick={() => navigate("/add-ad")}
+              >
+                Разместить объявление
+              </NavDropdown.Item>
               <NavDropdown.Item
                 style={{ textAlign: "center" }}
                 onClick={() => navigate("/my-ads")}

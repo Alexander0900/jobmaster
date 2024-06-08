@@ -33,32 +33,50 @@ export const AdItem = ({ ad, getAds }) => {
   };
 
   return (
-    <div className="col-md-4">
-      <Card style={{ marginBottom: "20px" }}>
-        <Card.Body>
-          <Card.Title>{ad.adTitle}</Card.Title>
-          <Card.Text>Требования: {ad.requirements}</Card.Text>
-          <Card.Text>Имя работодателя: {ad.username}</Card.Text>
-          <Card.Text>Зарплата: {ad.salary}</Card.Text>
-          <Card.Text>
-            Тел: <a href={`tel:${ad.mobile}`}>{ad.mobile}</a>
-          </Card.Text>
-          <Card.Text>Локация: {ad.city}</Card.Text>
-          <Card.Text>
-            Опубликовано: {dayjs(ad.created).fromNow()}
-          </Card.Text>
-          {(isAdmin(userData.roles) || userData.email === ad.email) && (
-            <SubmitButton
-              type="button"
-              loading={loading}
-              onClick={() => handleDelete(ad._id)}
-              variant="danger"
-            >
-              Удалить объявление
-            </SubmitButton>
-          )}
-        </Card.Body>
-      </Card>
-    </div>
+    <Card className="mb-4">
+      <Card.Header>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            {ad.adTitle}{" "}
+            {userData.email === ad.email && <small>(мое объявление)</small>}
+          </div>
+          <div>
+            {(isAdmin(userData.roles) || userData.email === ad.email) && (
+              <SubmitButton
+                type="button"
+                loading={loading}
+                onClick={() => handleDelete(ad._id)}
+                variant="danger"
+              >
+                Удалить объявление
+              </SubmitButton>
+            )}
+          </div>
+        </div>
+      </Card.Header>
+      <Card.Body>
+        <Card.Text>
+          <strong> Требования:</strong> {ad.requirements}
+        </Card.Text>
+        <Card.Text>
+          <strong> Имя работодателя:</strong> {ad.username}
+        </Card.Text>
+        <Card.Text>
+          <strong> Локация:</strong> {ad.city}
+        </Card.Text>
+        <Card.Text>
+          <strong> Оплата:</strong> {ad.salary}
+        </Card.Text>
+        <Card.Text>
+          <strong> Опубликовано:</strong> {dayjs(ad.created).fromNow()}
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 };

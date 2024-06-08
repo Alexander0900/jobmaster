@@ -8,7 +8,7 @@ import { Loader } from "../components/Loader";
 import { UserContext } from "../contexts/UserContext";
 import { UseIsUserAuth } from "../hooks/UseIsUserAuth";
 
-export const Dashboard = () => {
+export const Admin = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isAll, setAll] = useState(false);
