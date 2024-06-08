@@ -45,32 +45,18 @@ export const CustomNavBar = () => {
               menuVariant="white"
             >
               {isAdmin(userData.roles) && (
-                <NavDropdown.Item
-                  style={{ textAlign: "center" }}
-                  onClick={() => navigate("/admin")}
-                >
+                <NavDropdown.Item onClick={() => navigate("/admin")}>
                   Admin
                 </NavDropdown.Item>
               )}
 
-              <NavDropdown.Item
-                style={{ textAlign: "center" }}
-                onClick={() => navigate("/add-ad")}
-              >
+              <NavDropdown.Item onClick={() => navigate("/add-ad")}>
                 Разместить объявление
               </NavDropdown.Item>
-              <NavDropdown.Item
-                style={{ textAlign: "center" }}
-                onClick={() => navigate("/my-ads")}
-              >
+              <NavDropdown.Item onClick={() => navigate("/my-ads")}>
                 Мои объвления
               </NavDropdown.Item>
-              <NavDropdown.Item
-                style={{ textAlign: "center" }}
-                onClick={handleLogout}
-              >
-                Выйти
-              </NavDropdown.Item>
+              <NavDropdown.Item onClick={handleLogout}>Выйти</NavDropdown.Item>
             </NavDropdown>
           )}
         </div>
