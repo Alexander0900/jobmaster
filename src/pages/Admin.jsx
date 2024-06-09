@@ -144,13 +144,7 @@ export const Admin = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <>
       <Toolbar
         handleDelete={handleDelete}
         handleStatus={handleStatus}
@@ -168,6 +162,6 @@ export const Admin = () => {
           selectAll={selectAll}
         />
       )}
-    </div>
+    </>
   );
 };

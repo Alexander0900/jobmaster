@@ -12,7 +12,7 @@ export const TableUsers = ({
   return (
     <>
       <Title>Пользователи</Title>
-      <Table striped bordered hover>
+      <Table bordered hover responsive>
         <thead>
           <tr>
             <th>
