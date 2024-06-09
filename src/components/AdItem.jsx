@@ -74,6 +74,9 @@ export const AdItem = ({ ad, getAds }) => {
           <strong> Оплата:</strong> {ad.salary}
         </Card.Text>
         <Card.Text>
+          <strong>Тел:</strong> <a href={`tel:${ad.mobile}`}>{ad.mobile}</a>
+        </Card.Text>
+        <Card.Text>
           <strong> Опубликовано:</strong> {dayjs(ad.created).fromNow()}
         </Card.Text>
       </Card.Body>
