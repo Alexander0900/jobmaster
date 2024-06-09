@@ -3,7 +3,6 @@ import { Button, Card } from "react-bootstrap";
 import { DELETE_AD } from "../config";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { SubmitButton } from "./SubmitButton";
 import { isAdmin } from "../utils/isAdmin";
 import dayjs from "dayjs";
 import { Trash3 } from "react-bootstrap-icons";
